@@ -32,6 +32,7 @@ export default function Home() {
         setpristine(false);
         const email_id = e.currentTarget.email_id.value;
         if (validateEmail(email_id)) {
+            console.log(process.env.NEXT_PUBLIC_SERVER_URL);
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/subscriber/?email_id=${email_id}`,
                 {
