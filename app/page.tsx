@@ -57,7 +57,7 @@ export default function Home() {
     };
 
     return (
-        <div className="shadow-[0.5rem_0.5rem_0_black] w-4/5 flex flex-col md:flex-row items-center justify-center border-2 px-10 border-black rounded-xl">
+        <div className="shadow-[0.5rem_0.5rem_0_black] w-11/12 md:w-4/5 flex flex-col md:flex-row items-center justify-center border-2 px-10 border-black rounded-xl">
             <div className="h-full w-full object-fill">
                 <Image
                     src="https://illustrations.popsy.co/amber/app-launch.svg"
@@ -71,7 +71,7 @@ export default function Home() {
                 className="p-4 flex flex-col items-center justify-center gap-4 md:max-w-[50%]"
             >
                 <h1
-                    className={`${rubik.className} text-orange-400 italic text-5xl`}
+                    className={`${rubik.className} text-orange-400 italic text-5xl text-center`}
                 >
                     KTU Mailer
                 </h1>
@@ -91,7 +91,8 @@ export default function Home() {
                     <input
                         name="email_id"
                         placeholder="Email Id:"
-                        size={25}
+                        type="email"
+                        // size={2}
                         required
                         className={`${
                             pristine && !valid ? "focus:outline-orange-200" : ""
