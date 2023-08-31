@@ -5,10 +5,13 @@ import Image from "next/image";
 import { useState } from "react";
 import { Toaster, toast } from "sonner";
 
+import loadingIcon from "../public/loadingIcon.svg";
+
 const rubik = Rubik_Iso({ weight: ["400"], subsets: ["latin"] });
 export default function Home() {
     const [valid, setValid] = useState(false);
     const [pristine, setpristine] = useState(true);
+    const [submitted, setSubmitted] = useState(false);
 
     const validateEmail = (email_id: string) => {
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -30,6 +33,7 @@ export default function Home() {
     const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setpristine(false);
+        setSubmitted(true);
         const email_id = e.currentTarget.email_id.value;
         if (validateEmail(email_id)) {
             console.log(process.env.NEXT_PUBLIC_SERVER_URL);
@@ -54,6 +58,7 @@ export default function Home() {
         } else {
             toast.error("Invalid Email ID");
         }
+        setSubmitted(false);
     };
 
     return (
@@ -71,15 +76,15 @@ export default function Home() {
                 className="p-4 flex flex-col items-center justify-center gap-4 md:max-w-[50%]"
             >
                 <h1
-                    className={`${rubik.className} text-orange-400 italic text-5xl text-center`}
+                    className={`${rubik.className} text-orange-400 italic text-5xl text-center select-none`}
                 >
                     KTU Mailer
                 </h1>
-                <p className="text-center font-medium">
+                <p className="text-center font-medium select-none">
                     Wanna get the latest KTU notifications delivered straight to
                     your inbox?
                 </p>
-                <p className="text-center italic">
+                <p className="text-center italic select-none">
                     Well, here&apos;s the subscription service just for that,
                     enter you email below and let the service do its thing.
                 </p>
@@ -93,26 +98,35 @@ export default function Home() {
                         placeholder="Email Id:"
                         type="email"
                         // size={2}
-                        required
                         className={`${
                             pristine && !valid ? "focus:outline-orange-200" : ""
                         } px-4 py-2 border-2 rounded-lg outline-none ${
                             !pristine &&
-                            (valid ? "border-green-600" : "border-red-600")
+                            (valid ? "outline-green-600" : "outline-red-600")
                         } `}
                     />
                     <button
-                        className={`font-bold px-4 py-2  ${
-                            valid
+                        className={`font-bold px-4 py-2 w-32 ${
+                            valid && !submitted
                                 ? "shadow-[3px_3px_0_black] -translate-y-[2px] bg-orange-400 !text-black"
                                 : ""
-                        } focus:outline-none border-2 border-black rounded-xl transition-all ease-linear text-orange-400`}
+                        } focus:outline-none border-2 border-black rounded-xl transition-all ease-linear text-orange-400 flex items-center justify-center`}
                     >
-                        Subscribe
+                        {submitted ? (
+                            <Image
+                                className="animate-spin"
+                                src={loadingIcon}
+                                alt=""
+                                width={24}
+                                height={24}
+                            />
+                        ) : (
+                            "Subscribe"
+                        )}
                     </button>
                 </form>
             </div>
-            <Toaster richColors />
+            <Toaster richColors position="top-center" />
         </div>
     );
 }
